@@ -1,13 +1,18 @@
 <?php
 $page_title = "Inicio - Bienestar BUAP";
-include_once '../includes/encabezado.php';
-include_once '../includes/barra_navegacion.php';
-include_once '../includes/base_datos.php';
-include_once '../includes/autenticacion.php';
-require_once '../controladores/HomeController.php';
 
+// Iniciar sesión y autenticación primero
+include_once '../includes/base_datos.php';
+include_once '../includes/autenticacion.php'; // Esto debe ir antes de cualquier salida
+include_once '../controladores/HomeController.php';
+
+// Instanciar el controlador y obtener datos
 $controller = new HomeController($conexion);
 $data = $controller->mostrarInicio();
+
+// Incluir encabezado y barra de navegación después de la autenticación
+include_once '../includes/encabezado.php';
+include_once '../includes/barra_navegacion.php';
 ?>
 
 <div class="container">
@@ -41,6 +46,9 @@ $data = $controller->mostrarInicio();
     </div>
 </div>
 
-<?php $conexion->close(); ?>
+<?php 
+$conexion->close();
+include_once '../includes/pie_pagina.php'; // Si tienes un pie de página, agrégalo aquí
+?>
 </body>
 </html>
