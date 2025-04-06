@@ -1,0 +1,36 @@
+# Deshabilitar la indexación de directorios
+Options -Indexes
+
+# Proteger carpetas sensibles
+<Directory "includes">
+    Order Deny,Allow
+    Deny from all
+</Directory>
+
+<Directory "controladores">
+    Order Deny,Allow
+    Deny from all
+</Directory>
+
+# Proteger contra acceso a archivos sensibles
+<FilesMatch "\.(php|ini|log)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# Permitir acceso a archivos PHP específicos en vistas
+<FilesMatch "^(inicio\.php|inicio_sesion\.php|cerrar_sesion\.php|ver_colaboradores\.php|cargar_pruebas_psicometricas\.php|seguimiento_actividad_fisica\.php|cargar_alimentacion\.php|administrar_ip\.php)$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>
+
+# Forzar HTTPS (descomentar en producción)
+# RewriteEngine On
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Redirigir solicitudes de controladores a un manejador (opcional, si usas enrutamiento)
+# RewriteRule ^controladores/(.*)$ - [F] # Esto refuerza la protección de la carpeta controladores
+
+# Configuración adicional para evitar ejecución directa de scripts en otras carpetas
+RedirectMatch 403 ^/recursos/.*\.php$
